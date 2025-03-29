@@ -1,0 +1,328 @@
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 9.0.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| information_schema  |
+| library_mallikarjun |
+| manju               |
+| mysql               |
+| order_rahul         |
+| performance_schema  |
+| student             |
+| student_dbms        |
+| student_dbs         |
+| student_ms          |
+| sys                 |
++---------------------+
+11 rows in set (0.05 sec)
+
+mysql> use order_rahul;
+Database changed
+mysql> selsct*from salesman;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selsct*from salesman' at line 1
+mysql> select*from salesman;
++-------------+-------+--------+------------+
+| salesman_id | name  | city   | commission |
++-------------+-------+--------+------------+
+|           1 | rahul | tnp    |        100 |
+|           2 | ram   | mysuru |        200 |
+|           3 | nitin | mysuru |        300 |
+|           4 | ragu  | GJ     |        500 |
+|           5 | amar  | AP     |        900 |
++-------------+-------+--------+------------+
+5 rows in set (0.02 sec)
+
+mysql> select*from customer;
++-------------+---------------+----------+-------+-------------+
+| customer_id | customer_name | cus_city | grade | salesman_id |
++-------------+---------------+----------+-------+-------------+
+|        1001 | arjun         | UP       |     9 |           1 |
+|        1002 | nani          | MP       |     8 |           2 |
+|        1003 | appu          | MP       |     7 |           3 |
+|        1004 | raj           | RJ       |     8 |           4 |
+|        1005 | abhi          | JR       |     9 |           5 |
+|        1009 | raju          | tn       |     9 |           1 |
+|        1010 | ram           | tnp      |     9 |           1 |
++-------------+---------------+----------+-------+-------------+
+7 rows in set (0.01 sec)
+
+mysql> select*from orders;
++----------+--------------+------------+-------------+-------------+
+| order_no | purchase_amt | order_date | customer_id | salesman_id |
++----------+--------------+------------+-------------+-------------+
+|        1 |          200 | 2024-06-07 |        1001 |           1 |
+|        2 |          300 | 2024-06-08 |        1002 |           2 |
+|        3 |          300 | 2024-06-05 |        1003 |           3 |
+|        4 |          300 | 2024-06-09 |        1004 |           4 |
+|        5 |          500 | 2024-06-03 |        1005 |           5 |
++----------+--------------+------------+-------------+-------------+
+5 rows in set (0.01 sec)
+
+mysql> decs  salesman;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'decs  salesman' at line 1
+mysql> decs salesman;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'decs salesman' at line 1
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| commission  | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> desc customer;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| customer_id   | int         | NO   | PRI | NULL    |       |
+| customer_name | varchar(20) | YES  |     | NULL    |       |
+| cus_city      | varchar(20) | YES  |     | NULL    |       |
+| grade         | int         | YES  |     | NULL    |       |
+| salesman_id   | int         | YES  | MUL | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc orders;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| order_no     | int  | NO   | PRI | NULL    |       |
+| purchase_amt | int  | YES  |     | NULL    |       |
+| order_date   | date | YES  |     | NULL    |       |
+| customer_id  | int  | YES  | MUL | NULL    |       |
+| salesman_id  | int  | YES  | MUL | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select purchase_amt from orders group by ord_date having max(purchase_amt);
+ERROR 1054 (42S22): Unknown column 'ord_date' in 'group statement'
+mysql> select purchase_amt from orders group by order_date having max(purchase_amt);
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'order_rahul.orders.purchase_amt' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select purchase_amt from orders group by order_date having max(purchase_amt);
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'order_rahul.orders.purchase_amt' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select max(pur_amt)from ordres group by ord_date;
+ERROR 1146 (42S02): Table 'order_rahul.ordres' doesn't exist
+mysql> select max(pur_amt)from orders group by ord_date;
+ERROR 1054 (42S22): Unknown column 'pur_amt' in 'field list'
+mysql> select max(purchaase_amt)from orders group by ord_date;
+ERROR 1054 (42S22): Unknown column 'purchaase_amt' in 'field list'
+mysql> select max(purchase_amt)from orders group by ord_date;
+ERROR 1054 (42S22): Unknown column 'ord_date' in 'group statement'
+mysql> select order_date max(purchase_amt)from orders group by ord_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'max(purchase_amt)from orders group by ord_date' at line 1
+mysql> select order_date,max(purchase_amt)from orders group by ord_date;
+ERROR 1054 (42S22): Unknown column 'ord_date' in 'group statement'
+mysql> select order_date,max(purchase_amt)from orders group by order_date;
++------------+-------------------+
+| order_date | max(purchase_amt) |
++------------+-------------------+
+| 2024-06-07 |               200 |
+| 2024-06-08 |               300 |
+| 2024-06-05 |               300 |
+| 2024-06-09 |               300 |
+| 2024-06-03 |               500 |
++------------+-------------------+
+5 rows in set (0.01 sec)
+
+mysql> select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt in (select max(purchase_amt)from orders group by
+ order_date)
+    -> ^C
+mysql> select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id and purchase
+    -> _^C
+mysql> select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id and purchase_AMT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman s, orders o where s.salesman_id=o.salesman_id and purchase_AMT' at line 1
+mysql> select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt' at line 1
+mysql> select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt;
+       select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id a
+nd purchase_amt;
+       select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id a                 ^C
+mysql>
+
+       ^C
+mysql> select s.salesman_id,s.name,o.order_date fromn salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt' at line 1
+mysql>
+
+
+
+       ^C
+mysql> delete from salesman where salesman_id=5;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from salesman;
++-------------+-------+--------+------------+
+| salesman_id | name  | city   | commission |
++-------------+-------+--------+------------+
+|           1 | rahul | tnp    |        100 |
+|           2 | ram   | mysuru |        200 |
+|           3 | nitin | mysuru |        300 |
+|           4 | ragu  | GJ     |        500 |
++-------------+-------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql>  select order_date,max(purchase_amt)from orders group by order_date;
++------------+-------------------+
+| order_date | max(purchase_amt) |
++------------+-------------------+
+| 2024-06-07 |               200 |
+| 2024-06-08 |               300 |
+| 2024-06-05 |               300 |
+| 2024-06-09 |               300 |
++------------+-------------------+
+4 rows in set (0.00 sec)
+
+mysql> create view highest_ord as select s.salesman_id,s.name,s.order_date from salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt in (select max(purchas
+e_amt)from order group by order_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order group by order_date' at line 1
+mysql> create view highest_ord as select s.salesman_id,s.name,o.order_date from salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt in (select max(purchas
+e_amt)from order group by order_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order group by order_date' at line 1
+mysql> create view highest_ord as select s.salesman_id,s.name,o.order_date from salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt in (select max(purchase_amt)from orders group by order_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create view highest_ord as select s.salesman_id,s.name,o.order_date from salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt in (select max(purchase_amt) from orders group by order_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create view highest_ord as select s.salesman_id,s.name,o.order_date from salesman s, orders o where s.salesman_id=o.salesman_id and purchase_amt in (select max(purchase_amt) from orders group by order_date;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create databse company_rahul;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databse company_rahul' at line 1
+mysql> create database company_rahul;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| company_rahul       |
+| information_schema  |
+| library_mallikarjun |
+| manju               |
+| mysql               |
+| order_rahul         |
+| performance_schema  |
+| student             |
+| student_dbms        |
+| student_dbs         |
+| student_ms          |
+| sys                 |
++---------------------+
+12 rows in set (0.00 sec)
+
+mysql> use company_rahul;
+Database changed
+mysql> create table employee(ssn int primary key,name varchar(20),address varchar(20),sex varchar(10),salary int,superssn int reference employee(ssn) o delete cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference employee(ssn) o delete cascade)' at line 1
+mysql> create table employee(ssn int primary key,name varchar(20),address varchar(20),sex varchar(10),salary int,superssn int reference employee(ssn) on delete cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'reference employee(ssn) on delete cascade)' at line 1
+mysql> create table employee(ssn int primary key,name varchar(20),address varchar(20),sex varchar(10),salary int,superssn int references employee(ssn) on delete cascade);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> alter table employee add dno int references department(dno) on delete cascade;
+ERROR 1824 (HY000): Failed to open the referenced table 'department'
+mysql> alter table employee add dno int references department(dno) on delete cascade;
+ERROR 1824 (HY000): Failed to open the referenced table 'department'
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ssn      | int         | NO   | PRI | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| address  | varchar(20) | YES  |     | NULL    |       |
+| sex      | varchar(10) | YES  |     | NULL    |       |
+| salary   | int         | YES  |     | NULL    |       |
+| superssn | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table employee add dno int references department(dno) on delete cascade;
+ERROR 1824 (HY000): Failed to open the referenced table 'department'
+mysql> create table department (dno int primary key ,dname varchar(20),mgrssn int references employee(ssn) on delete cascade,mgrstartdate date);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> alter table employee add dno int references department(dno) on delete cascade;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table dlocation(dno int references employee(ssn) on delete cascade,dloc varchar(30));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table project(pno int primary key,pname varchar(20),plocation varcahr(30),dno int references department(dno) on delete cascade);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'varcahr(30),dno int references department(dno) on delete cascade)' at line 1
+mysql> create table project(pno int primary key,pname varchar(20),plocation varchar(30),dno int references department(dno) on delete cascade);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table works_on(ssn int references employee(ssn) on delete cascade,pno int references project(pno) on delete cascade,hours int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| ssn      | int         | NO   | PRI | NULL    |       |
+| name     | varchar(20) | YES  |     | NULL    |       |
+| address  | varchar(20) | YES  |     | NULL    |       |
+| sex      | varchar(10) | YES  |     | NULL    |       |
+| salary   | int         | YES  |     | NULL    |       |
+| superssn | int         | YES  | MUL | NULL    |       |
+| dno      | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc department;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| dno          | int         | NO   | PRI | NULL    |       |
+| dname        | varchar(20) | YES  |     | NULL    |       |
+| mgrssn       | int         | YES  | MUL | NULL    |       |
+| mgrstartdate | date        | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc dlocation;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| dno   | int         | YES  | MUL | NULL    |       |
+| dloc  | varchar(30) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc project;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| pno       | int         | NO   | PRI | NULL    |       |
+| pname     | varchar(20) | YES  |     | NULL    |       |
+| plocation | varchar(30) | YES  |     | NULL    |       |
+| dno       | int         | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc works_on;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| ssn   | int  | YES  | MUL | NULL    |       |
+| pno   | int  | YES  | MUL | NULL    |       |
+| hours | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql>
