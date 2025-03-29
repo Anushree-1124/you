@@ -1,0 +1,227 @@
+mysql> create database order_nitin;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use order_nitin;
+Database changed
+mysql> create table salesman(salesman_id int primary key, name varchar(20) , city varchar(20) , commission int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int         | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| commission  | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> create table customer(customer_id int primary key,  cust_name varchar(20) , grade int , cust_city varchar(20) , s
+alesman_id int references salesman(salesman_id) on delete cascade);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int         | NO   | PRI | NULL    |       |
+| cust_name   | varchar(20) | YES  |     | NULL    |       |
+| grade       | int         | YES  |     | NULL    |       |
+| cust_city   | varchar(20) | YES  |     | NULL    |       |
+| salesman_id | int         | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table orders(ord_no int primary key , purchase_amt int , ord_date date , customer_id int references custom
+er(customer_id) on delete cascade , salesman_id int references salesman(salesman_id) on delete cascade);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc orders;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| ord_no       | int  | NO   | PRI | NULL    |       |
+| purchase_amt | int  | YES  |     | NULL    |       |
+| ord_date     | date | YES  |     | NULL    |       |
+| customer_id  | int  | YES  | MUL | NULL    |       |
+| salesman_id  | int  | YES  | MUL | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into salesman(salesman_id,name,city,commission)values(2,'Mayur','Narsipura',150);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into salesman(salesman_id,name,city,commission)values(3,'Akash','Kodagu',200);
+Query OK, 1 row affmysql> insert into salesman(salesman_id,name,city,commission)values(1,'Nitin','Mysore',100);
+ected (0.01 sec)
+
+mysql> insert into salesman(salesman_id,name,city,commission)values(4,'Karthik','Banglore',250);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into salesman(salesman_id,name,city,commission)values(5,'Mallikarjun','Manglore',220);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from salesman;
++-------------+-------------+-----------+------------+
+| salesman_id | name        | city      | commission |
++-------------+-------------+-----------+------------+
+|           1 | Nitin       | Mysore    |        100 |
+|           2 | Mayur       | Narsipura |        150 |
+|           3 | Akash       | Kodagu    |        200 |
+|           4 | Karthik     | Banglore  |        250 |
+|           5 | Mallikarjun | Manglore  |        220 |
++-------------+-------------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into customer(customer_id,cust_name,grade,cust_city,salesman_id)values(1001,'Arjun',5,'Nagpur',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer(customer_id,cust_name,grade,cust_city,salesman_id)values(1002,'Kamal',4,'Ambala',2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer(customer_id,cust_name,grade,cust_city,salesman_id)values(1003,'Mayank',4,'Banglore',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer(customer_id,cust_name,grade,cust_city,salesman_id)values(1004,'Ananth',3,'Kolkata',4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer(customer_id,cust_name,grade,cust_city,salesman_id)values(1005,'Kumar',2,'Hosapete',5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from customer;
++-------------+-----------+-------+-----------+-------------+
+| customer_id | cust_name | grade | cust_city | salesman_id |
++-------------+-----------+-------+-----------+-------------+
+|        1001 | Arjun     |     5 | Nagpur    |           1 |
+|        1002 | Kamal     |     4 | Ambala    |           2 |
+|        1003 | Mayank    |     4 | Banglore  |           3 |
+|        1004 | Ananth    |     3 | Kolkata   |           4 |
+|        1005 | Kumar     |     2 | Hosapete  |           5 |
++-------------+-----------+-------+-----------+-------------+
+
+mysql> insert into orders(ord_no,purchase_amt,ord_date,customer_id,salesman_id)values(10,500,'2024/12/31',1001,1);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into orders(ord_no,purchase_amt,ord_date,customer_id,salesman_id)values(11,1500,'2023/10/10',1002,2);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into orders(ord_no,purchase_amt,ord_date,customer_id,salesman_id)values(12,1200,'2024/09/18',1003,3);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into orders(ord_no,purchase_amt,ord_date,customer_id,salesman_id)values(13,1250,'2025/01/07',1004,4);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into orders(ord_no,purchase_amt,ord_date,customer_id,salesman_id)values(14,1600,'2025/03/04',1005,5);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select*from orders;
++--------+--------------+------------+-------------+-------------+
+| ord_no | purchase_amt | ord_date   | customer_id | salesman_id |
++--------+--------------+------------+-------------+-------------+
+|     10 |          500 | 2024-12-31 |        1001 |           1 |
+|     11 |         1500 | 2023-10-10 |        1002 |           2 |
+|     12 |         1200 | 2024-09-18 |        1003 |           3 |
+|     13 |         1250 | 2025-01-07 |        1004 |           4 |
+|     14 |         1600 | 2025-03-04 |        1005 |           5 |
++--------+--------------+------------+-------------+-------------+
+
+
+// query 1
+mysql> select customer_id,cust_name from customer where grade>(select avg(grade) from customer where cust_city = 'Banglo
+re');
++-------------+-----------+
+| customer_id | cust_name |
++-------------+-----------+
+|        1001 | Arjun     |
++-------------+-----------+
+1 row in set (0.00 sec)
+
+//query 2
+mysql>  insert into customer(customer_id,cust_name,grade,cust_city,salesman_id)values(1006,'Arun',3,'Nagaland',1);
+mysql> select s.salesman_id,s.name, count(*) as no_of_customers from salesman s,customer c where s.salesman_id=c.salesma
+n_id group by salesman_id,name having count(*)>1;
++-------------+-------+-----------------+
+| salesman_id | name  | no_of_customers |
++-------------+-------+-----------------+
+|           1 | Nitin |               2 |
++-------------+-------+-----------------+
+1 row in set (0.00 sec)
+
+
+//query 3
+ select s.name,c.cust_name from salesman s, customer c where s.city=c.cust_name UNION select s.na
+me,c.cust_name from salesman s,customer c where s.city NOT IN(select cust_city from customer);
++-------------+-----------+
+| name        | cust_name |
++-------------+-----------+
+| Mallikarjun | Arjun     |
+| Akash       | Arjun     |
+| Mayur       | Arjun     |
+| Nitin       | Arjun     |
+| Mallikarjun | Kamal     |
+| Akash       | Kamal     |
+| Mayur       | Kamal     |
+| Nitin       | Kamal     |
+| Mallikarjun | Mayank    |
+| Akash       | Mayank    |
+| Mayur       | Mayank    |
+| Nitin       | Mayank    |
+| Mallikarjun | Ananth    |
+| Akash       | Ananth    |
+| Mayur       | Ananth    |
+| Nitin       | Ananth    |
+| Mallikarjun | Kumar     |
+| Akash       | Kumar     |
+| Mayur       | Kumar     |
+| Nitin       | Kumar     |
+| Mallikarjun | Arun      |
+| Akash       | Arun      |
+| Mayur       | Arun      |
+| Nitin       | Arun      |
++-------------+-----------+
+
+//query 4
+
+mysql> create view highest_ord as select s.salesman_id , s.name,o.ord_date from salesman s, orders o where s.salesman_id
+=o.salesman_id and purchase_amt in (select max(purchase_amt) from  orders group by ord_date);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select*from highest_ord;
++-------------+-------------+------------+
+| salesman_id | name        | ord_date   |
++-------------+-------------+------------+
+|           1 | Nitin       | 2024-12-31 |
+|           2 | Mayur       | 2023-10-10 |
+|           3 | Akash       | 2024-09-18 |
+|           4 | Karthik     | 2025-01-07 |
+|           5 | Mallikarjun | 2025-03-04 |
++-------------+-------------+------------+
+
+//query 5
+
+mysql> delete from salesman where salesman_id=5;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from salesman;
++-------------+---------+-----------+------------+
+| salesman_id | name    | city      | commission |
++-------------+---------+-----------+------------+
+|           1 | Nitin   | Mysore    |        100 |
+|           2 | Mayur   | Narsipura |        150 |
+|           3 | Akash   | Kodagu    |        200 |
+|           4 | Karthik | Banglore  |        250 |
++-------------+---------+-----------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders;
++--------+--------------+------------+-------------+-------------+
+| ord_no | purchase_amt | ord_date   | customer_id | salesman_id |
++--------+--------------+------------+-------------+-------------+
+|     10 |          500 | 2024-12-31 |        1001 |           1 |
+|     11 |         1500 | 2023-10-10 |        1002 |           2 |
+|     12 |         1200 | 2024-09-18 |        1003 |           3 |
+|     13 |         1250 | 2025-01-07 |        1004 |           4 |
++--------+--------------+------------+-------------+-------------+
